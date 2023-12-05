@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <excludeFromCompile>
-      <directory url="file://$PROJECT_DIR$/two/src/main/resources/archetype-resources" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/untitled/src/main/resources/archetype-resources" includeSubdirectories="true" />
-    </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -17,8 +13,6 @@
     <bytecodeTargetLevel>
       <module name="advent-of-code-2023" target="1.5" />
       <module name="aoc" target="17" />
-      <module name="untitled" target="1.7" />
-      <module name="untitled1" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
