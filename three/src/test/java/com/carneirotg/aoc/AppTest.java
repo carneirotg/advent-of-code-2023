@@ -3,6 +3,8 @@ package com.carneirotg.aoc;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,19 +20,27 @@ public class AppTest {
 
     @Test
     void solutionSmallInput() throws IOException {
-        String file ="src/test/resources/input-small.txt";
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        List<String> input = new ArrayList<>();
-        var numLines = 0;
-        var numColumns = 0;
-        while(reader.ready()) {
-            var line = reader.readLine();
-            numLines += 1;
-            numColumns = line.length();
-            input.add(line);
-        }
-        Assertions.assertEquals(4361, testObject.solution(input, numLines, numColumns));
+        var lines = Files.readAllLines(Paths.get("src/test/resources/input-small.txt"));
+        Assertions.assertEquals(925, testObject.solution(lines));
+    }
 
-        reader.close();
+    @Test
+    void solutionFullInput() throws IOException {
+        var lines = Files.readAllLines(Paths.get("src/test/resources/input.txt"));
+        System.out.println(testObject.solution(lines));
+
+    }
+
+    @Test
+    void solution2SmallInput() throws IOException {
+        var lines = Files.readAllLines(Paths.get("src/test/resources/input-small.txt"));
+        Assertions.assertEquals(6756, testObject.solution2(lines));
+    }
+
+    @Test
+    void solution2FullInput() throws IOException {
+        var lines = Files.readAllLines(Paths.get("src/test/resources/input.txt"));
+        System.out.println(testObject.solution2(lines));
+
     }
 }

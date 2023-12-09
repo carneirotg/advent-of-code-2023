@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <excludeFromCompile>
-      <directory url="file://$PROJECT_DIR$/two/src/main/resources/archetype-resources" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/untitled/src/main/resources/archetype-resources" includeSubdirectories="true" />
-    </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="one" />
+        <module name="two" />
         <module name="three" />
       </profile>
     </annotationProcessing>
@@ -18,11 +16,8 @@
       <module name="aoc" target="17" />
       <module name="five" target="17" />
       <module name="four" target="17" />
-      <module name="one" target="17" />
       <module name="seven" target="17" />
       <module name="six" target="17" />
-      <module name="untitled" target="1.7" />
-      <module name="untitled1" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
