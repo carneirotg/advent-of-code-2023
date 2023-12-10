@@ -34,7 +34,7 @@ public class AppTest {
     @Test
     void solution2SmallInput() throws IOException {
         var lines = Files.readAllLines(Paths.get("src/test/resources/input-small.txt"));
-        Assertions.assertEquals(6756, testObject.solution2(lines));
+        Assertions.assertEquals(30, testObject.solution2(lines));
     }
 
     @Test

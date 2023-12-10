@@ -13,6 +13,7 @@ public class App
     public Integer solution(List<String> input) {
         var totalCount = 0;
 //        Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+        Map<Integer, Integer> gameCount = new HashMap<>();
         for (int i = 0; i < input.size(); i++) {
             //get winners and my list
             String s = input.get(i);
@@ -26,6 +27,43 @@ public class App
 
         }
         return totalCount;
+    }
+
+    public Integer solution2(List<String> input) {
+        var totalCount = 0;
+//        Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+        Map<Integer, Integer> gameCount = new HashMap<>();
+        for (int i = 0; i < input.size(); i++) {
+            //get winners and my list
+            String s = input.get(i);
+            var games = s.split("\\|");
+            //first part winners + game number
+            Map<String, List<Integer>> left = getNumbers(Pattern.compile("\\d+").matcher(games[0]));
+            Map<String, List<Integer>> right = getNumbers(Pattern.compile("\\d+").matcher(games[1]));
+
+            var index = left.get(GAME).remove(0);
+            gameCount.merge(index, 1, Integer::sum);
+
+            findMatchesAndCopies(left, right, gameCount, index);
+
+        }
+        return gameCount.values().stream().reduce(0, Integer::sum);
+    }
+
+    private int findMatchesAndCopies(Map<String, List<Integer>> left, Map<String, List<Integer>> right, Map<Integer, Integer> gameCount, Integer cardNumber) {
+
+        var winningNumbers = left.get(GAME);
+        var count = (int) right.get(GAME).stream()
+                .filter(winningNumbers::contains)
+                .count();
+
+        var current = gameCount.get(cardNumber);
+        for (int i = 1; i <= count; i++) {
+            gameCount.merge(cardNumber + i, current, Integer::sum);
+        }
+
+        return count;
+
     }
 
     private int findMatchesRightToLeft(Map<String, List<Integer>> left, Map<String, List<Integer>> right) {
@@ -47,10 +85,6 @@ public class App
         var result = new HashMap<String, List<Integer>>();
         result.put(GAME, cards);
         return result;
-    }
-
-    public Integer solution2(List<String> input) {
-        return 0;
     }
 
 }
