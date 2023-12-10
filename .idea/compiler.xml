@@ -6,18 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="four" />
         <module name="one" />
         <module name="two" />
+        <module name="five" />
         <module name="three" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="advent-of-code-2023" target="1.5" />
       <module name="aoc" target="17" />
-      <module name="five" target="17" />
-      <module name="four" target="17" />
       <module name="seven" target="17" />
       <module name="six" target="17" />
+      <module name="three (1)" target="17" />
+      <module name="three (2)" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
