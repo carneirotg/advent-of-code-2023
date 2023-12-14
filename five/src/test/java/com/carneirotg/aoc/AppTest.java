@@ -20,13 +20,13 @@ public class AppTest {
 
     @Test
     void solutionSmallInput() throws IOException {
-        var lines = Files.readAllLines(Paths.get("src/test/resources/input-small.txt"));
-        Assertions.assertEquals(925, testObject.solution(lines));
+        var lines = Files.readString(Paths.get("src/test/resources/input-small.txt"));
+        Assertions.assertEquals(35, testObject.solution(lines));
     }
 
     @Test
     void solutionFullInput() throws IOException {
-        var lines = Files.readAllLines(Paths.get("src/test/resources/input.txt"));
+        var lines = Files.readString(Paths.get("src/test/resources/input.txt"));
         System.out.println(testObject.solution(lines));
 
     }
