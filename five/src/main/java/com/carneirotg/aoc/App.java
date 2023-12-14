@@ -2,41 +2,44 @@ package com.carneirotg.aoc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.LongStream;
 
 public class App 
 {
     public Long solution(String input) {
 
-        var lines = input.split("\\n\\n");
-
-        var seeds = lines[0].split(":")[1].trim().split(" ");
-        var seedToSoilMap = parseToMap(lines[1]);
-        var soilToFertilizer = parseToMap(lines[2]);
-        var fertilizerToWater = parseToMap(lines[3]);
-        var waterToLight = parseToMap(lines[4]);
-        var lightToTemperature = parseToMap(lines[5]);
-        var temperatureToHumidity = parseToMap(lines[6]);
-        var humidityToLocation = parseToMap(lines[7]);
+        Almanac almanac = getPopulateMaps(input);
 
         List<Long> locations = new ArrayList<>();
-        //79, 14, 55, 13
-        for (String seedStr : seeds) {
-            //seed to soil find source
-            var seed = Long.parseLong(seedStr);
-            Long destSeed = 0L;
-            destSeed = findDestination(seedToSoilMap, seed);
-            destSeed = findDestination(soilToFertilizer, destSeed);
-            destSeed = findDestination(fertilizerToWater, destSeed);
-            destSeed = findDestination(waterToLight, destSeed);
-            destSeed = findDestination(lightToTemperature, destSeed);
-            destSeed = findDestination(temperatureToHumidity, destSeed);
-            destSeed = findDestination(humidityToLocation, destSeed);
 
-            locations.add(destSeed);
+        for (String seedStr : almanac.seeds()) {
+            //seed to soil find source
+            populateLocations(almanac.seedToSoilMap(), almanac.soilToFertilizer(), almanac.fertilizerToWater(), almanac.waterToLight(), almanac.lightToTemperature(),
+                almanac.temperatureToHumidity(), almanac.humidityToLocation(), locations, Long.parseLong(seedStr));
         }
 
-
         return locations.stream().sorted().findFirst().get();
+    }
+
+    private void populateLocations(List<List<Long>> seedToSoilMap, List<List<Long>> soilToFertilizer, List<List<Long>> fertilizerToWater, List<List<Long>> waterToLight,
+                                   List<List<Long>> lightToTemperature, List<List<Long>> temperatureToHumidity, List<List<Long>> humidityToLocation, List<Long> locations, Long seed) {
+        Long destSeed = 0L;
+        destSeed = findDestination(seedToSoilMap, seed);
+        destSeed = findDestination(soilToFertilizer, destSeed);
+        destSeed = findDestination(fertilizerToWater, destSeed);
+        destSeed = findDestination(waterToLight, destSeed);
+        destSeed = findDestination(lightToTemperature, destSeed);
+        destSeed = findDestination(temperatureToHumidity, destSeed);
+        destSeed = findDestination(humidityToLocation, destSeed);
+
+        if (!locations.isEmpty()) {
+            var location = locations.get(0);
+            if (destSeed < location) {
+                locations.add(destSeed);
+            }
+        } else {
+            locations.add(destSeed);
+        }
     }
 
     private Long findDestination(List<List<Long>> searchMap, Long seed) {
@@ -72,8 +75,40 @@ public class App
         return map;
     }
 
-    public Integer solution2(List<String> input) {
-        return 0;
+    public Long solution2(String input) {
+        Almanac almanac = getPopulateMaps(input);
+
+        List<Long> locations = new ArrayList<>();
+
+        var seeds = almanac.seeds();
+        for (int i = 0; i < seeds.length; i +=2) {
+            var start = Long.parseLong(seeds[i]);
+            var end = Long.parseLong(seeds[i]) + Long.parseLong(seeds[i+1]);
+            LongStream.rangeClosed(start, end).forEach(
+                seed -> {
+                    populateLocations(almanac.seedToSoilMap(), almanac.soilToFertilizer(), almanac.fertilizerToWater(), almanac.waterToLight(), almanac.lightToTemperature(),
+                        almanac.temperatureToHumidity(), almanac.humidityToLocation(), locations, seed);
+            });
+        }
+
+        return locations.stream().sorted().findFirst().get();
+    }
+
+    private Almanac getPopulateMaps(String input) {
+        var lines = input.split("\\n\\n");
+
+        var seeds = lines[0].split(":")[1].trim().split(" ");
+        var seedToSoilMap = parseToMap(lines[1]);
+        var soilToFertilizer = parseToMap(lines[2]);
+        var fertilizerToWater = parseToMap(lines[3]);
+        var waterToLight = parseToMap(lines[4]);
+        var lightToTemperature = parseToMap(lines[5]);
+        var temperatureToHumidity = parseToMap(lines[6]);
+        var humidityToLocation = parseToMap(lines[7]);
+        return new Almanac(seeds, seedToSoilMap, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
+    }
+
+    private record Almanac(String[] seeds, List<List<Long>> seedToSoilMap, List<List<Long>> soilToFertilizer, List<List<Long>> fertilizerToWater, List<List<Long>> waterToLight, List<List<Long>> lightToTemperature, List<List<Long>> temperatureToHumidity, List<List<Long>> humidityToLocation) {
     }
 
 }
